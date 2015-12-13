@@ -18,7 +18,6 @@ SOURCES += main.cpp\
     tiledtileset.cpp \
     tiledlayergroupitem.cpp \
     mycharacter.cpp \
-    myrect.cpp \
     gamescene.cpp
 
 HEADERS  += widget.h \
@@ -26,5 +25,4 @@ HEADERS  += widget.h \
     tiledtileset.h \
     tiledlayergroupitem.h \
     mycharacter.h \
-    myrect.h \
     gamescene.h

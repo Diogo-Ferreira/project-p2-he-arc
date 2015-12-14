@@ -28,3 +28,6 @@ HEADERS  += widget.h \
     mycharacter.h \
     gamescene.h \
     gamehud.h
+
+RESOURCES += \
+    assets.qrc

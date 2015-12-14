@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/img/hud">
+        <file alias="checkA.png">assets/img/hud/checkA.png</file>
+        <file alias="checkI.png">assets/img/hud/CheckI.png</file>
+        <file alias="chrono.png">assets/img/hud/chrono.png</file>
+        <file alias="level.png">assets/img/hud/level.png</file>
+        <file alias="sonarA.png">assets/img/hud/sonarA.png</file>
+        <file alias="sonarI.png">assets/img/hud/sonarI.png</file>
+    </qresource>
+    <qresource prefix="/map">
+        <file alias="desert_t.json">assets/map/desert_t.json</file>
+        <file alias="spritesheet.png">assets/map/spritesheet.png</file>
+        <file alias="tmw_desert_spacing.png">assets/map/tmw_desert_spacing.png</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file alias="dicishandwrite.ttf">assets/fonts/Dici's Handwrite.ttf</file>
+    </qresource>
+</RCC>

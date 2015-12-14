@@ -9,7 +9,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
     view->setHorizontalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
     //view->setViewport(new QGLWidget());
     view->show();
-    resize(800,800);
+    resize(1280,720);
 }
 
 Widget::~Widget()

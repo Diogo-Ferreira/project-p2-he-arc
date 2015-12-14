@@ -1,13 +1,13 @@
 #ifndef GAMESCENE_H
 #define GAMESCENE_H
 #include <QGraphicsScene>
-#include "myrect.h"
 #include "mycharacter.h"
 #include <QList>
 #include <QKeyEvent>
 #include <QDebug>
 #include <QObject>
 #include "tiledjsonmapparsor.h"
+#include "gamehud.h"
 
 class GameScene : public QGraphicsScene
 {
@@ -22,6 +22,7 @@ public:
     QGraphicsEllipseItem * circle;
     QTimer * timer;
     bool isSonar;
+    GameHUD *gameHUD;
 protected:
 
 private:

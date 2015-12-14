@@ -13,13 +13,33 @@ GameScene::GameScene()
     //this->setBackgroundBrush(Qt::black);
     MyCharacter * char1 = new MyCharacter(0,100);
     MyCharacter * char2 = new MyCharacter(100,0);
-    char1->setZValue(1);
-    char2->setZValue(2);
+    char1->setZValue(99);
+    char2->setZValue(98);
+
+
     isSonar = false;
     this->addItem(char1);
     this->addItem(char2);
     characters.append(char1);
     characters.append(char2);
+
+    // GameScene Rectangle
+    QRect rect(0,0,1280,720);
+    this->setSceneRect(rect);
+
+
+    // HUD
+    this->gameHUD = new GameHUD();
+    this->gameHUD->setZValue(100); // Top Layer
+    this->addItem(gameHUD);
+
+    // Test Cover Rectangle
+    // COMMENTER POUR REVOIR LA MAP
+    QGraphicsRectItem *cover = new QGraphicsRectItem(QRect(0,0,1280,720));
+    cover->setBrush(Qt::black);
+    cover->setZValue(97);
+    this->addItem(cover);
+
 }
 
 void GameScene::keyPressEvent(QKeyEvent *event)
@@ -43,9 +63,9 @@ void GameScene::keyPressEvent(QKeyEvent *event)
         {
             isSonar = true;
             circle = new QGraphicsEllipseItem();
-            circle->setBrush(Qt::red);
+            circle->setBrush(Qt::blue);
             circle->setRect(characters[character]->x()-125,characters[character]->y()-100, 300,300);
-            circle->setZValue(0);
+            circle->setZValue(99);
             this->addItem(circle);
             timer = new QTimer();
 

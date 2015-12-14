@@ -18,11 +18,16 @@ SOURCES += main.cpp\
     tiledtileset.cpp \
     tiledlayergroupitem.cpp \
     mycharacter.cpp \
-    gamescene.cpp
+    gamescene.cpp \
+    gamehud.cpp
 
 HEADERS  += widget.h \
     tiledjsonmapparsor.h \
     tiledtileset.h \
     tiledlayergroupitem.h \
     mycharacter.h \
-    gamescene.h
+    gamescene.h \
+    gamehud.h
+
+RESOURCES += \
+    ressources.qrc

@@ -23,10 +23,12 @@ public:
     QTimer * timer;
     bool isSonar;
     GameHUD *gameHUD;
+    QGraphicsEllipseItem *posHelper;//Pour le aider à debugger
 protected:
 
 private:
     TiledJsonMapParsor *mapParsor;
+    QGraphicsPixmapItem *sonarView;
 
 public slots:
     void removeCircle();

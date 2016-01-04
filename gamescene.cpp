@@ -9,12 +9,17 @@ GameScene::GameScene()
 {
 
     mapParsor = new TiledJsonMapParsor("desert_t.json");
-    addItem(mapParsor->layers->value("Ground"));
-    //this->setBackgroundBrush(Qt::black);
+    //addItem(mapParsor->layers->value("Ground"));
+    this->setBackgroundBrush(Qt::black);
+    //addItem(mapParsor->layers->value("Ground"));
+
     MyCharacter * char1 = new MyCharacter(0,100);
     MyCharacter * char2 = new MyCharacter(100,0);
     char1->setZValue(99);
     char2->setZValue(98);
+    posHelper = new QGraphicsEllipseItem(0,0,10,10);
+    posHelper->setBrush(Qt::red);
+    addItem(posHelper);
 
 
     isSonar = false;
@@ -35,10 +40,10 @@ GameScene::GameScene()
 
     // Test Cover Rectangle
     // COMMENTER POUR REVOIR LA MAP
-    QGraphicsRectItem *cover = new QGraphicsRectItem(QRect(0,0,1280,720));
+    /*QGraphicsRectItem *cover = new QGraphicsRectItem(QRect(0,0,1280,720));
     cover->setBrush(Qt::black);
     cover->setZValue(97);
-    this->addItem(cover);
+    this->addItem(cover);*/
 
 }
 
@@ -62,11 +67,20 @@ void GameScene::keyPressEvent(QKeyEvent *event)
         if(!isSonar)
         {
             isSonar = true;
-            circle = new QGraphicsEllipseItem();
-            circle->setBrush(Qt::blue);
-            circle->setRect(characters[character]->x()-125,characters[character]->y()-100, 300,300);
-            circle->setZValue(99);
-            this->addItem(circle);
+//            circle = new QGraphicsEllipseItem();
+//            circle->setBrush(Qt::blue);
+//            circle->setRect(characters[character]->x()-125,characters[character]->y()-100, 300,300);
+//            circle->setZValue(99);
+//            this->addItem(circle);
+            sonarView = new QGraphicsPixmapItem(mapParsor->layers->value("Ground")->getLayerImgCopy(
+                        characters[character]->x()-125,
+                        characters[character]->y()-100,
+                        300,
+                        300,
+                        QPixmap("mask.png")
+                        ));
+            sonarView->setPos(characters[character]->pos().x() - 125,characters[character]->pos().y() - 100);
+            addItem(sonarView);
             timer = new QTimer();
 
             connect(timer, SIGNAL(timeout()), this, SLOT(removeCircle()));
@@ -80,6 +94,8 @@ void GameScene::keyPressEvent(QKeyEvent *event)
             characters[character]->keyPressEvent(event);
             break;
     }
+    posHelper->setPos(characters[character]->pos());
+    qDebug() << mapParsor->layers->value("Ground")->getTilePropretyByPos(characters[character]->x(),characters[character]->y());
 }
 
 void GameScene::keyReleaseEvent(QKeyEvent *event)
@@ -89,7 +105,7 @@ void GameScene::keyReleaseEvent(QKeyEvent *event)
 
 void GameScene::removeCircle()
 {
-    removeItem(circle);
+    removeItem(sonarView);
     timer->stop();
     isSonar = false;
 }

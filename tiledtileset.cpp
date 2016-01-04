@@ -12,7 +12,7 @@ TiledTileSet::TiledTileSet(int firstGid,QString fileName,int tileW,int tileH)
 TiledTileSet::TiledTileSet(QJsonObject data)
 {
     firstgid = data["firstgid"].toInt();
-    tileSheetImage = new QPixmap(data["image"].toString());
+    tileSheetImage = new QPixmap( QString("%1/%2").arg(":/map", data["image"].toString()) );
     tileHeight = data["tileheight"].toInt();
     tileWidth = data["tilewidth"].toInt();
     fillProperties(data);
@@ -33,7 +33,6 @@ void TiledTileSet::fillProperties(QJsonObject data)
         propreties->insert(v,propsHash);
     }
 }
-
 
 QPixmap TiledTileSet::getTile(int index)
 {

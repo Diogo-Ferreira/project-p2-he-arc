@@ -15,11 +15,11 @@ GameHUD::GameHUD()
 
 
     // Personal font Use
-    QFontDatabase::addApplicationFont(":/fonts/Dici's Handwrite.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/dicishandwrite.ttf");
     QFont *dicisHUD = new QFont("DicisHandwrite", 20);
 
     // Construction of the playtime group
-    QGraphicsPixmapItem *picChrono = new QGraphicsPixmapItem(QPixmap("img/chrono.png"));
+    QGraphicsPixmapItem *picChrono = new QGraphicsPixmapItem(QPixmap(":/img/hud/chrono.png"));
     picChrono->setPos(20,20);
 
     QGraphicsTextItem *txtPlaytime = new QGraphicsTextItem("Temps de jeu");
@@ -28,7 +28,7 @@ GameHUD::GameHUD()
     txtPlaytime->setPos(90, 20);
 
     // Construction of the level group
-    QGraphicsPixmapItem *picLevel = new QGraphicsPixmapItem(QPixmap("img/level.png"));
+    QGraphicsPixmapItem *picLevel = new QGraphicsPixmapItem(QPixmap(":/img/hud/level.png"));
     picLevel->setPos(50,530);
 
     QGraphicsTextItem *txtLevel = new QGraphicsTextItem("Niveau");
@@ -43,13 +43,13 @@ GameHUD::GameHUD()
 
 
     for(int i = 0; i <= 4; i++){
-        QGraphicsPixmapItem *picCheckA = new QGraphicsPixmapItem(QPixmap("img/checkA.png"));
+        QGraphicsPixmapItem *picCheckA = new QGraphicsPixmapItem(QPixmap(":/img/hud/checkA.png"));
         picCheckA->setPos(50 + (spacing*i),640);
         this->level->addToGroup(picCheckA);
     }
 
     for(int i = 0; i <= 3; i++){
-        QGraphicsPixmapItem *picCheckI = new QGraphicsPixmapItem(QPixmap("img/checkI.png"));
+        QGraphicsPixmapItem *picCheckI = new QGraphicsPixmapItem(QPixmap(":/img/hud/checkI.png"));
         picCheckI->setPos(50 + (4*spacing) + (spacing*i),640);
         this->level->addToGroup(picCheckI);
     }
@@ -70,13 +70,13 @@ GameHUD::GameHUD()
     txtSonarEmission->setPos(1000, 600);
 
     for(int i = 0; i <= 3; i++){
-        QGraphicsPixmapItem *sonarA = new QGraphicsPixmapItem(QPixmap("img/sonarA.png"));
+        QGraphicsPixmapItem *sonarA = new QGraphicsPixmapItem(QPixmap(":/img/hud/sonarA.png"));
         sonarA->setPos(1200 - (spacing*i),640);
         this->level->addToGroup(sonarA);
     }
 
     for(int i = 0; i <= 4; i++){
-        QGraphicsPixmapItem *sonarI = new QGraphicsPixmapItem(QPixmap("img/sonarI.png"));
+        QGraphicsPixmapItem *sonarI = new QGraphicsPixmapItem(QPixmap(":/img/hud/sonarI.png"));
         sonarI->setPos(1200 - (4*spacing) - (spacing*i),640);
         this->level->addToGroup(sonarI);
     }

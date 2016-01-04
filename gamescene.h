@@ -19,10 +19,13 @@ public:
     //QList<MyRect*> characters;
     QList<MyCharacter*> characters;
     int character = 0;
-    QGraphicsEllipseItem * circle;
+    QGraphicsPixmapItem * circle;
     QTimer * timer;
+    QTimer * timer2;
     bool isSonar;
+    bool animationfinie;
     GameHUD *gameHUD;
+    double i;
     QGraphicsEllipseItem *posHelper;//Pour le aider à debugger
 protected:
 
@@ -32,6 +35,7 @@ private:
 
 public slots:
     void removeCircle();
+     void updateCircle();
 };
 
 #endif // GAMESCENE_H

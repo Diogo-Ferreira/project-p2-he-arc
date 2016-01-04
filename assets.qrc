@@ -15,4 +15,11 @@
     <qresource prefix="/fonts">
         <file alias="dicishandwrite.ttf">assets/fonts/Dici's Handwrite.ttf</file>
     </qresource>
+    <qresource prefix="/img/character">
+        <file alias="blueball.png">assets/img/character/blueball.png</file>
+        <file alias="blueballshadow.png">assets/img/character/blueballshadow.png</file>
+        <file alias="blueballhalo.png">assets/img/character/bluewballhalo.png</file>
+        <file alias="sonar.png">assets/img/character/sonar.png</file>
+        <file alias="sonarmask.png">assets/img/character/mask.png</file>
+    </qresource>
 </RCC>

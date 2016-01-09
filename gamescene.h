@@ -16,13 +16,17 @@ public:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     GameScene();
-    //QList<MyRect*> characters;
+
     QList<MyCharacter*> characters;
     int character = 0;
     QGraphicsEllipseItem * circle;
     QTimer * timer;
     bool isSonar;
-    GameHUD *gameHUD;
+
+
+    GameHUD *gameHUD; // HUD object
+
+
 protected:
 
 private:

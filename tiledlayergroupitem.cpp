@@ -55,5 +55,6 @@ QPixmap TiledLayerGroupItem::getLayerImgCopy(int x,int y,int w,int h,QPixmap mas
         QPixmap imgRectCopy = this->layerImg->copy(x,y,w,h);
         imgRectCopy.setMask(mask.scaled(w,h).mask());
         return imgRectCopy;
+        //return mask.scaled(w,h);
     }
 }

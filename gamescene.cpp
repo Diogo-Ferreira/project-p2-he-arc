@@ -4,11 +4,12 @@
 #include <QPixmap>
 #include <QThread>
 #include <QTimer>
+#include <QMediaPlayer>
 
 GameScene::GameScene()
 {
 
-    mapParsor = new TiledJsonMapParsor("desert_t.json");
+    mapParsor = new TiledJsonMapParsor(":map/level1.json");
     //addItem(mapParsor->layers->value("Ground"));
     this->setBackgroundBrush(QColor(29,42,55));
     //addItem(mapParsor->layers->value("Ground"));
@@ -20,6 +21,8 @@ GameScene::GameScene()
     posHelper = new QGraphicsEllipseItem(0,0,10,10);
     posHelper->setBrush(Qt::red);
     addItem(posHelper);
+    sonarView = new QGraphicsPixmapItem();
+    addItem(sonarView);
 
 
     isSonar = false;
@@ -44,6 +47,12 @@ GameScene::GameScene()
     cover->setBrush(QColor(29,42,55));
     cover->setZValue(97);
     this->addItem(cover);*/
+
+    //MUSIC
+    QMediaPlayer * music = new QMediaPlayer();
+    music->setMedia(QUrl(":sounds/music.mp3"));
+    music->setVolume(100);
+    music->play();
 
 }
 
@@ -77,44 +86,46 @@ void GameScene::keyPressEvent(QKeyEvent *event)
             //            circle->setRect(characters[character]->x()-125,characters[character]->y()-100, 300,300);
             //            circle->setZValue(99);
             //            this->addItem(circle);
-            sonarView = new QGraphicsPixmapItem(mapParsor->layers->value("Ground")->getLayerImgCopy(
+            /*sonarView = new QGraphicsPixmapItem(mapParsor->layers->value("Ground")->getLayerImgCopy(
                                                     characters[character]->x()-125,
                                                     characters[character]->y()-100,
                                                     300,
                                                     300,
                                                     QPixmap(":/img/character/sonarmask.png")
                                                     ));
-            sonarView->setPos(characters[character]->pos().x() - 120,characters[character]->pos().y() - 120);
-            addItem(sonarView);
+            sonarView->setPos(characters[character]->pos().x() - 120,characters[character]->pos().y() - 120);*/
+
 //            timer = new QTimer();
 
 //            connect(timer, SIGNAL(timeout()), this, SLOT(removeCircle()));
 //            timer->start();
 //            timer->setInterval(2000);
             QPixmap pix = QPixmap(":img/character/sonar.png");
-                        circle = new QGraphicsPixmapItem(pix);
+            circle = new QGraphicsPixmapItem(pix);
 
-                        circle->setX(characters[character]->x()-120);
-                        circle->setY(characters[character]->y()-120);
-                        circle->setZValue(96);
-                        circle->setTransformOriginPoint(150,150);
+            circle->setX(characters[character]->x()-120);
+            circle->setY(characters[character]->y()-120);
+            circle->setZValue(96);
+            circle->setTransformOriginPoint(150,150);
+            //sonarView->setTransformOriginPoint(150,150);
 
-                        i = 0.00;
-                        animationfinie = false;
-                        addItem(circle);
-                        timer2 = new QTimer();
+            i = 0.00;
+            animationfinie = false;
+            addItem(circle);
+            //addItem(sonarView);
+            timer2 = new QTimer();
 
-                        connect(timer2, SIGNAL(timeout()), this, SLOT(updateCircle()));
-                        timer2->start();
-                        timer2->setInterval(1);
+            connect(timer2, SIGNAL(timeout()), this, SLOT(updateCircle()));
+            timer2->start();
+            timer2->setInterval(1);
 
-                        timer = new QTimer();
+            timer = new QTimer();
 
-                        connect(timer, SIGNAL(timeout()), this, SLOT(removeCircle()));
-                        timer->start();
-                        timer->setInterval(3000);
+            connect(timer, SIGNAL(timeout()), this, SLOT(removeCircle()));
+            timer->start();
+            timer->setInterval(2500);
 
-                        i = 0.00;
+            i = 0.00;
 
         }
         break;
@@ -146,20 +157,46 @@ void GameScene::updateCircle()
     if(animationfinie && i > 0)
     {
         circle->setScale(i);
+        //sonarView->setScale(i);
+        removeItem(sonarView);
+        sonarView = new QGraphicsPixmapItem(mapParsor->layers->value("Ground")->getLayerImgCopy(
+                                                characters[character]->x()-150*i,
+                                                characters[character]->y()-150*i,
+                                                300*i,
+                                                300*i,
+                                                QPixmap(":/img/character/sonarmask.png")
+                                                ));
+        sonarView->setPos((characters[character]->pos().x()+25) - sonarView->pixmap().size().width()/2,(characters[character]->pos().y()+25) - sonarView->pixmap().size().height()/2);
+        circle->setPos((characters[character]->pos().x()+25) - circle->pixmap().size().width()/2,(characters[character]->pos().y()+25)- circle->pixmap().size().height()/2);
+        //sonarView->setTransformOriginPoint(150,150);
+        addItem(sonarView);
         if(i > 1)
         {
-            i -= 0.002;
+            i -= 0.001;
         }else{
-            i -= 0.020;
+            i -= 0.010;
         }
 
     }else if(!animationfinie){
         circle->setScale(i);
+        //sonarView->setScale(i);
+        removeItem(sonarView);
+        sonarView = new QGraphicsPixmapItem(mapParsor->layers->value("Ground")->getLayerImgCopy(
+                                                characters[character]->x()-150*i,
+                                                characters[character]->y()-150*i,
+                                                300*i,
+                                                300*i,
+                                                QPixmap(":/img/character/sonarmask.png")
+                                                ));
+        sonarView->setPos((characters[character]->pos().x()+25) - sonarView->pixmap().size().width()/2,(characters[character]->pos().y()+25)- sonarView->pixmap().size().height()/2);
+        circle->setPos((characters[character]->pos().x()+25) - circle->pixmap().size().width()/2,(characters[character]->pos().y()+25)- circle->pixmap().size().height()/2);
+        //sonarView->setTransformOriginPoint(150,150);
+        addItem(sonarView);
         if(i > 1)
         {
-            i += 0.002;
+            i += 0.001;
         }else{
-            i += 0.006;
+            i += 0.003;
         }
 
         if(i > 1.5)

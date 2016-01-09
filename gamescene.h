@@ -16,24 +16,26 @@ public:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     GameScene();
-
+    //QList<MyRect*> characters;
     QList<MyCharacter*> characters;
     int character = 0;
-    QGraphicsEllipseItem * circle;
+    QGraphicsPixmapItem * circle;
     QTimer * timer;
+    QTimer * timer2;
     bool isSonar;
-
-
-    GameHUD *gameHUD; // HUD object
-
-
+    bool animationfinie;
+    GameHUD *gameHUD;
+    double i;
+    QGraphicsEllipseItem *posHelper;//Pour le aider à debugger
 protected:
 
 private:
     TiledJsonMapParsor *mapParsor;
+    QGraphicsPixmapItem *sonarView;
 
 public slots:
     void removeCircle();
+     void updateCircle();
 };
 
 #endif // GAMESCENE_H

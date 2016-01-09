@@ -9,7 +9,7 @@ MyCharacter::MyCharacter(int x, int y)
 
     this->setX(x);
     this->setY(y);
-    pix = new QPixmap(":/map/spritesheet.png");
+    pix = new QPixmap(":/img/character/blueballhalo.png");
     setPixmap(pix->copy(0,0,50,75));
     QTimer *timer = new QTimer();
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(updateEnv()));

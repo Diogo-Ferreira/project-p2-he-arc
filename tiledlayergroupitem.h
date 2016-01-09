@@ -12,10 +12,13 @@ public:
     bool visible;
     int width;
     int height;
-
+    QHash<QString,QString> getTilePropretyByPos(int x,int y);
+    QPixmap getLayerImgCopy(int x,int y,int w,int h,QPixmap mask);
 private:
+    QPixmap *layerImg;
     TiledTileSet *tileset;
     void buildLayer();
+    void createLayerImg();
 
 signals:
 

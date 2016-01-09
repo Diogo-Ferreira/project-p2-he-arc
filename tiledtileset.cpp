@@ -15,6 +15,23 @@ TiledTileSet::TiledTileSet(QJsonObject data)
     tileSheetImage = new QPixmap( QString("%1/%2").arg(":/map", data["image"].toString()) );
     tileHeight = data["tileheight"].toInt();
     tileWidth = data["tilewidth"].toInt();
+    fillProperties(data);
+}
+
+
+void TiledTileSet::fillProperties(QJsonObject data)
+{
+    propreties = new QHash<QString,QHash<QString,QString> >();
+    QJsonObject tileProps = data["tileproperties"].toObject();
+    foreach(QString v,tileProps.keys())
+    {
+        QJsonObject o = tileProps[v].toObject();
+        QHash<QString,QString> propsHash = QHash<QString,QString>();
+        foreach(QString propKeys,o.keys()){
+            propsHash.insert(propKeys,o[propKeys].toString());
+        }
+        propreties->insert(v,propsHash);
+    }
 }
 
 QPixmap TiledTileSet::getTile(int index)
@@ -26,4 +43,9 @@ QPixmap TiledTileSet::getTile(int index)
                 tileHeight
     );
     return tileSheetImage->copy(tile);
+}
+
+QHash<QString, QString> TiledTileSet::getTileProps(int index)
+{
+    return propreties->value(QString::number(index));
 }

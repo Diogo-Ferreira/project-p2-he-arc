@@ -8,11 +8,21 @@
         <file alias="sonarI.png">assets/img/hud/sonarI.png</file>
     </qresource>
     <qresource prefix="/map">
-        <file alias="desert_t.json">assets/map/desert_t.json</file>
         <file alias="spritesheet.png">assets/map/spritesheet.png</file>
         <file alias="tmw_desert_spacing.png">assets/map/tmw_desert_spacing.png</file>
+        <file alias="level1.json">assets/map/level1.json</file>
     </qresource>
     <qresource prefix="/fonts">
         <file alias="dicishandwrite.ttf">assets/fonts/Dici's Handwrite.ttf</file>
+    </qresource>
+    <qresource prefix="/img/character">
+        <file alias="blueball.png">assets/img/character/blueball.png</file>
+        <file alias="blueballshadow.png">assets/img/character/blueballshadow.png</file>
+        <file alias="blueballhalo.png">assets/img/character/bluewballhalo.png</file>
+        <file alias="sonar.png">assets/img/character/sonar.png</file>
+        <file alias="sonarmask.png">assets/img/character/mask.png</file>
+    </qresource>
+    <qresource prefix="/sounds">
+        <file alias="music.mp3">assets/sounds/music.mp3</file>
     </qresource>
 </RCC>

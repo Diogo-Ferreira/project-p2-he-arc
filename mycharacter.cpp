@@ -5,16 +5,18 @@
 #include <QThread>
 #include <QDebug>
 
-MyCharacter::MyCharacter(int x, int y)
+MyCharacter::MyCharacter(int x, int y,QGraphicsScene* parent,TiledJsonMapParsor *mapParsor)
 {
 
+    //this->mapParsor = mapParsor;
     this->setX(x);
     this->setY(y);
     pix = new QPixmap(":/img/character/blueballhalo.png");
     setPixmap(pix->copy(0,0,50,75));
-    QTimer *timer = new QTimer();
-    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(updateEnv()));
-    timer->start(3);
+    updateTimer = new QTimer();
+    QObject::connect(updateTimer, SIGNAL(timeout()), this, SLOT(updateEnv()));
+    sonarPower = new SonarPowar(parent,this,mapParsor);
+    updateTimer->start(3);
 }
 
 void MyCharacter::keyPressEvent(QKeyEvent *event)
@@ -86,11 +88,13 @@ void MyCharacter::movePlayer()
 void MyCharacter::updateEnv()
 {
     this->movePlayer();
+    sonarPower->update();
+    qDebug() << "hello";
 }
 
 void MyCharacter::sonar()
 {
-
+    sonarPower->fire();
 }
 void MyCharacter::nextFrame()
 {
@@ -101,17 +105,17 @@ void MyCharacter::touched()
 {
     pix = new QPixmap(":/img/character/redballhalo.png");
     setPixmap(pix->copy(0,0,50,75));
-    timer = new QTimer();
+    hitAnimationTimer = new QTimer();
 
-    connect(timer, SIGNAL(timeout()), this, SLOT(animationTouched()));
-    timer->start();
-    timer->setInterval(500);
+    connect(hitAnimationTimer, SIGNAL(timeout()), this, SLOT(animationTouched()));
+    hitAnimationTimer->start();
+    hitAnimationTimer->setInterval(500);
 }
 void MyCharacter::animationTouched()
 {
     pix = new QPixmap(":/img/character/blueballhalo.png");
     setPixmap(pix->copy(0,0,50,75));
     qDebug() << "HFUEshfuihsuifhnsuiehbfuiebsufhbusebfusehfusebuj" << endl;
-    timer->stop();
+    hitAnimationTimer->stop();
 
 }

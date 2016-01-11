@@ -6,11 +6,12 @@
 #include <QObject>
 #include <QList>
 #include <QGraphicsPixmapItem>
-
+#include "sonarpowar.h"
+class TiledJsonMapParsor;
 class MyCharacter: public QObject, public QGraphicsPixmapItem{
     Q_OBJECT
 public :
-    MyCharacter(int x, int y);
+    MyCharacter(int x, int y,QGraphicsScene *parent,TiledJsonMapParsor *mapParsor);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     void movePlayer();
@@ -21,11 +22,15 @@ public :
     bool personnage = true;
     QPixmap *pix;
     int id;
-    QTimer *timer;
+    QTimer *hitAnimationTimer;
+    QTimer *updateTimer;
+
 private :
+    SonarPowar *sonarPower;
+    TiledJsonMapParsor *mapParsor;
+    void sonar();
 public slots :
     void updateEnv();
-    void sonar();
     void nextFrame();
     void touched();
     void animationTouched();

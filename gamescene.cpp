@@ -9,10 +9,12 @@
 GameScene::GameScene()
 {
 
-    mapParsor = new TiledJsonMapParsor(":map/level1.json");
+    mapParsor = new TiledJsonMapParsor(":map/level3.json");
+    //QGraphicsItemGroup *map = mapParsor->layers->value("Ground");
+    //addItem(map);
+    //map->moveBy(-320,-640);
+    this->setBackgroundBrush(QColor(29,42,55));
     //addItem(mapParsor->layers->value("Ground"));
-    //this->setBackgroundBrush(QColor(29,42,55));
-    addItem(mapParsor->layers->value("Ground"));
 
     MyCharacter * char1 = new MyCharacter(0,100,this,mapParsor);
     MyCharacter * char2 = new MyCharacter(100,0,this,mapParsor);
@@ -70,8 +72,6 @@ void GameScene::keyPressEvent(QKeyEvent *event)
         characters[character]->keyPressEvent(event);
         break;
     }
-    posHelper->setPos(characters[character]->pos());
-    qDebug() << mapParsor->layers->value("Ground")->getTilePropretyByPos(characters[character]->x(),characters[character]->y());
 }
 
 void GameScene::keyReleaseEvent(QKeyEvent *event)

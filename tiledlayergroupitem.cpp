@@ -14,10 +14,12 @@ TiledLayerGroupItem::TiledLayerGroupItem(QJsonObject data,TiledTileSet* tileset)
 
 QHash<QString, QString> TiledLayerGroupItem::getTilePropretyByPos(int x, int y)
 {
+    x += 320;
+    y += 640;
     int xPosInTiles = (int)(x / 32);
     int yPosInTIles = (int)(y / 32);
-    int index = (1+yPosInTIles) * (1+xPosInTiles);
-    qDebug() << xPosInTiles << " " << yPosInTIles << " " << index-1;
+    int index = yPosInTIles*60 + (xPosInTiles+1);
+    qDebug() << xPosInTiles << " " << yPosInTIles << " " << data.at(index-1).toInt()-1;
     return tileset->getTileProps(data.at(index-1).toInt()-1);
 }
 
@@ -49,6 +51,9 @@ void TiledLayerGroupItem::createLayerImg(){
 }
 
 QPixmap TiledLayerGroupItem::getLayerImgCopy(int x,int y,int w,int h,QPixmap mask){
+    //Quick Fix, dirty as fuck
+    x += 320;
+    y += 640;
     if(mask.isNull())
         return this->layerImg->copy(x,y,w,h);
     else{

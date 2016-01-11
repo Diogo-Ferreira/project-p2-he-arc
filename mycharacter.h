@@ -29,9 +29,9 @@ private :
     SonarPowar *sonarPower;
     TiledJsonMapParsor *mapParsor;
     void sonar();
+    int speed = 1;
 public slots :
     void updateEnv();
-    void nextFrame();
     void touched();
     void animationTouched();
 };

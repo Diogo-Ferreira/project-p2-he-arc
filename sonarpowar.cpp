@@ -19,8 +19,8 @@ void SonarPowar::fire(){
         QPixmap pix = QPixmap(":img/character/sonar.png");
         circle = new QGraphicsPixmapItem(pix);
 
-        circle->setX(player->x()-25);
-        circle->setY(player->y()-25);
+        circle->setX(player->x()+25);
+        circle->setY(player->y()+25);
         circle->setZValue(96);
         circle->setTransformOriginPoint(150,150);
 

@@ -41,3 +41,11 @@ void TiledJsonMapParsor::preloadData(QJsonDocument doc)
         layers->insert(QString(temp["name"].toString()),new TiledLayerGroupItem(temp,tilesets->first()));
     }
 }
+
+bool TiledJsonMapParsor::doesPlayerCollide(QPoint pos, QRect bounds)
+{
+    QHash<QString,QString> prop = layers->value("Ground")->getTilePropretyByPos(pos.x(),pos.y());
+
+    if(prop.contains("block")) return true;
+    else return false;
+}

@@ -21,7 +21,7 @@ private:
     bool isAnimFinished;
     double animIter;
     bool isFired;
-    double animSpeed = 0.01/2;//A regler en fonction de l'update
+    double animSpeed = 0.01/3;//A regler en fonction de l'update
 
 
 };

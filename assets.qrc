@@ -11,6 +11,8 @@
         <file alias="spritesheet.png">assets/map/spritesheet.png</file>
         <file alias="tmw_desert_spacing.png">assets/map/tmw_desert_spacing.png</file>
         <file alias="level1.json">assets/map/level1.json</file>
+        <file alias="level2.json">assets/map/level2.json</file>
+        <file alias="level3.json">assets/map/level3.json</file>
     </qresource>
     <qresource prefix="/fonts">
         <file alias="dicishandwrite.ttf">assets/fonts/Dici's Handwrite.ttf</file>

@@ -4,15 +4,16 @@
 #include <QTimer>
 #include <QThread>
 #include <QDebug>
+#include "tiledjsonmapparsor.h"
 
 MyCharacter::MyCharacter(int x, int y,QGraphicsScene* parent,TiledJsonMapParsor *mapParsor)
 {
 
-    //this->mapParsor = mapParsor;
+    this->mapParsor = mapParsor;
     this->setX(x);
     this->setY(y);
     pix = new QPixmap(":/img/character/blueballhalo.png");
-    setPixmap(pix->copy(0,0,50,75));
+    setPixmap(pix->copy(0,0,50,50));
     updateTimer = new QTimer();
     QObject::connect(updateTimer, SIGNAL(timeout()), this, SLOT(updateEnv()));
     sonarPower = new SonarPowar(parent,this,mapParsor);
@@ -76,29 +77,47 @@ void MyCharacter::keyReleaseEvent(QKeyEvent *event)
 
 void MyCharacter::movePlayer()
 {
+    if (this->KeyLeft){
+        if(!mapParsor->doesPlayerCollide(QPoint(x()-speed, y()),QRect())){
+            setPos(x()-speed, y());
+        }else{
+            touched();
+        }
+    }
+    if(this->KeyRight){
+        if(!mapParsor->doesPlayerCollide(QPoint(x()+speed + 25 , y()),QRect())) {
+         setPos(x()+speed, y());
+        }else{
+            touched();
+        }
+    }
+    if (this->KeyDown){
+        if(!mapParsor->doesPlayerCollide(QPoint(x(), y()+speed+25),QRect())) {
+            setPos(x(), y()+speed);
+        }else{
+            touched();
+        }
+    }
+    if (this->KeyUp){
+        if(!mapParsor->doesPlayerCollide(QPoint(x(), y()-speed),QRect())){
 
-    //Attention, on devra prendre un compte la puissance de la mahcine ici
-    //Sinon le personnage ne se déplacera pas à la même vitesse sur n'importe quel machine
-    if (this->KeyLeft) setPos(x()-1, y());
-      else if (this->KeyRight) setPos(x()+1, y());;
-    if (this->KeyDown) setPos(x(), y()+1);
-      else if (this->KeyUp) setPos(x(), y()-1);
+        setPos(x(), y()-speed);
+        }else{
+            touched();
+        }
+    }
 }
 
 void MyCharacter::updateEnv()
 {
     this->movePlayer();
     sonarPower->update();
-    qDebug() << "hello";
+    qDebug() << mapParsor->layers->value("Ground")->getTilePropretyByPos(x()+25,y()+25);
 }
 
 void MyCharacter::sonar()
 {
     sonarPower->fire();
-}
-void MyCharacter::nextFrame()
-{
-
 }
 
 void MyCharacter::touched()
@@ -115,7 +134,6 @@ void MyCharacter::animationTouched()
 {
     pix = new QPixmap(":/img/character/blueballhalo.png");
     setPixmap(pix->copy(0,0,50,75));
-    qDebug() << "HFUEshfuihsuifhnsuiehbfuiebsufhbusebfusehfusebuj" << endl;
     hitAnimationTimer->stop();
 
 }

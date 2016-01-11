@@ -9,6 +9,7 @@ class TiledJsonMapParsor
 public:
     TiledJsonMapParsor(QString mapName);
     QHash< QString, TiledLayerGroupItem *> *layers;
+    bool doesPlayerCollide(QPoint pos,QRect bounds);
 private:
     int mapWidthInTiles;
     int mapHeightInTiles;
@@ -17,7 +18,7 @@ private:
     QList<TiledTileSet*> *tilesets;//int -> firstgid
     void preloadData(QJsonDocument doc);
     void drawMap();
-signals:
+    signals:
 
 public slots:
 };

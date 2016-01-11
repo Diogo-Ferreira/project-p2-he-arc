@@ -21,11 +21,14 @@ public :
     bool personnage = true;
     QPixmap *pix;
     int id;
+    QTimer *timer;
 private :
 public slots :
     void updateEnv();
     void sonar();
     void nextFrame();
+    void touched();
+    void animationTouched();
 };
 
 #endif // MYCHARACTER

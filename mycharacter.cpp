@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QThread>
+#include <QDebug>
 
 MyCharacter::MyCharacter(int x, int y)
 {
@@ -93,5 +94,24 @@ void MyCharacter::sonar()
 }
 void MyCharacter::nextFrame()
 {
+
+}
+
+void MyCharacter::touched()
+{
+    pix = new QPixmap(":/img/character/redballhalo.png");
+    setPixmap(pix->copy(0,0,50,75));
+    timer = new QTimer();
+
+    connect(timer, SIGNAL(timeout()), this, SLOT(animationTouched()));
+    timer->start();
+    timer->setInterval(500);
+}
+void MyCharacter::animationTouched()
+{
+    pix = new QPixmap(":/img/character/blueballhalo.png");
+    setPixmap(pix->copy(0,0,50,75));
+    qDebug() << "HFUEshfuihsuifhnsuiehbfuiebsufhbusebfusehfusebuj" << endl;
+    timer->stop();
 
 }

@@ -60,6 +60,9 @@ void GameScene::keyPressEvent(QKeyEvent *event)
 {
     switch(event->key())
     {
+    case Qt::Key_T :
+        characters[character]->touched();
+        break;
     case Qt::Key_P :
         qDebug() << "Change de joueur" << endl;
         characters[character]->KeyDown = false;
@@ -81,25 +84,6 @@ void GameScene::keyPressEvent(QKeyEvent *event)
         if(!isSonar)
         {
             isSonar = true;
-            //            circle = new QGraphicsEllipseItem();
-            //            circle->setBrush(Qt::blue);
-            //            circle->setRect(characters[character]->x()-125,characters[character]->y()-100, 300,300);
-            //            circle->setZValue(99);
-            //            this->addItem(circle);
-            /*sonarView = new QGraphicsPixmapItem(mapParsor->layers->value("Ground")->getLayerImgCopy(
-                                                    characters[character]->x()-125,
-                                                    characters[character]->y()-100,
-                                                    300,
-                                                    300,
-                                                    QPixmap(":/img/character/sonarmask.png")
-                                                    ));
-            sonarView->setPos(characters[character]->pos().x() - 120,characters[character]->pos().y() - 120);*/
-
-//            timer = new QTimer();
-
-//            connect(timer, SIGNAL(timeout()), this, SLOT(removeCircle()));
-//            timer->start();
-//            timer->setInterval(2000);
             QPixmap pix = QPixmap(":img/character/sonar.png");
             circle = new QGraphicsPixmapItem(pix);
 
@@ -113,17 +97,11 @@ void GameScene::keyPressEvent(QKeyEvent *event)
             animationfinie = false;
             addItem(circle);
             //addItem(sonarView);
-            timer2 = new QTimer();
-
-            connect(timer2, SIGNAL(timeout()), this, SLOT(updateCircle()));
-            timer2->start();
-            timer2->setInterval(1);
-
             timer = new QTimer();
 
-            connect(timer, SIGNAL(timeout()), this, SLOT(removeCircle()));
+            connect(timer, SIGNAL(timeout()), this, SLOT(updateCircle()));
             timer->start();
-            timer->setInterval(2500);
+            timer->setInterval(10);
 
             i = 0.00;
 
@@ -148,55 +126,46 @@ void GameScene::removeCircle()
     removeItem(circle);
     removeItem(sonarView);
     timer->stop();
-    timer2->stop();
     isSonar = false;
 }
 
 void GameScene::updateCircle()
 {
-    if(animationfinie && i > 0)
+    circle->setScale(i);
+    //sonarView->setScale(i);
+    removeItem(sonarView);
+    delete sonarView;
+    sonarView = new QGraphicsPixmapItem(mapParsor->layers->value("Ground")->getLayerImgCopy(
+                                            characters[character]->x()-150*i,
+                                            characters[character]->y()-150*i,
+                                            300*i,
+                                            300*i,
+                                            QPixmap(":/img/character/sonarmask.png")
+                                            ));
+    sonarView->setPos((characters[character]->pos().x()+25) - sonarView->pixmap().size().width()/2,(characters[character]->pos().y()+25)- sonarView->pixmap().size().height()/2);
+    circle->setPos((characters[character]->pos().x()+25) - circle->pixmap().size().width()/2,(characters[character]->pos().y()+25)- circle->pixmap().size().height()/2);
+    //sonarView->setTransformOriginPoint(150,150);
+    addItem(sonarView);
+    if(animationfinie)
     {
-        circle->setScale(i);
-        //sonarView->setScale(i);
-        removeItem(sonarView);
-        sonarView = new QGraphicsPixmapItem(mapParsor->layers->value("Ground")->getLayerImgCopy(
-                                                characters[character]->x()-150*i,
-                                                characters[character]->y()-150*i,
-                                                300*i,
-                                                300*i,
-                                                QPixmap(":/img/character/sonarmask.png")
-                                                ));
-        sonarView->setPos((characters[character]->pos().x()+25) - sonarView->pixmap().size().width()/2,(characters[character]->pos().y()+25) - sonarView->pixmap().size().height()/2);
-        circle->setPos((characters[character]->pos().x()+25) - circle->pixmap().size().width()/2,(characters[character]->pos().y()+25)- circle->pixmap().size().height()/2);
-        //sonarView->setTransformOriginPoint(150,150);
-        addItem(sonarView);
         if(i > 1)
         {
-            i -= 0.001;
+            i -= 0.01;
         }else{
-            i -= 0.010;
+            i -= 0.10;
+            if(i <= 0.5)
+            {
+                removeCircle();
+            }
         }
 
+
     }else if(!animationfinie){
-        circle->setScale(i);
-        //sonarView->setScale(i);
-        removeItem(sonarView);
-        sonarView = new QGraphicsPixmapItem(mapParsor->layers->value("Ground")->getLayerImgCopy(
-                                                characters[character]->x()-150*i,
-                                                characters[character]->y()-150*i,
-                                                300*i,
-                                                300*i,
-                                                QPixmap(":/img/character/sonarmask.png")
-                                                ));
-        sonarView->setPos((characters[character]->pos().x()+25) - sonarView->pixmap().size().width()/2,(characters[character]->pos().y()+25)- sonarView->pixmap().size().height()/2);
-        circle->setPos((characters[character]->pos().x()+25) - circle->pixmap().size().width()/2,(characters[character]->pos().y()+25)- circle->pixmap().size().height()/2);
-        //sonarView->setTransformOriginPoint(150,150);
-        addItem(sonarView);
         if(i > 1)
         {
-            i += 0.001;
+            i += 0.01;
         }else{
-            i += 0.003;
+            i += 0.03;
         }
 
         if(i > 1.5)

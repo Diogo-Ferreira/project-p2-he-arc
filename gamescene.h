@@ -21,6 +21,7 @@ public:
     int character = 0;
     QGraphicsPixmapItem * circle;
     QTimer * timer;
+    QTimer * timer2;
     bool isSonar;
     bool animationfinie;
     GameHUD *gameHUD;

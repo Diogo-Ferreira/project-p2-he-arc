@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     tiledlayergroupitem.cpp \
     mycharacter.cpp \
     gamescene.cpp \
-    gamehud.cpp
+    gamehud.cpp \
+    sonarpowar.cpp
 
 HEADERS  += widget.h \
     tiledjsonmapparsor.h \
@@ -27,7 +28,8 @@ HEADERS  += widget.h \
     tiledlayergroupitem.h \
     mycharacter.h \
     gamescene.h \
-    gamehud.h
+    gamehud.h \
+    sonarpowar.h
 
 RESOURCES += \
     assets.qrc

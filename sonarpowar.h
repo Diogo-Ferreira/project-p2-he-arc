@@ -7,9 +7,6 @@ class SonarPowar
 public:
     SonarPowar();
 
-signals:
-
-public slots:
 };
 
 #endif // SONARPOWAR_H

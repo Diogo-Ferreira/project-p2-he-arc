@@ -11,8 +11,8 @@ GameScene::GameScene()
 
     mapParsor = new TiledJsonMapParsor(":map/level1.json");
     //addItem(mapParsor->layers->value("Ground"));
-    this->setBackgroundBrush(QColor(29,42,55));
-    //addItem(mapParsor->layers->value("Ground"));
+    //this->setBackgroundBrush(QColor(29,42,55));
+    addItem(mapParsor->layers->value("Ground"));
 
     MyCharacter * char1 = new MyCharacter(0,100,this,mapParsor);
     MyCharacter * char2 = new MyCharacter(100,0,this,mapParsor);

@@ -8,6 +8,8 @@ class GameHUD : public QGraphicsItemGroup
 public:
     GameHUD();
 
+    // This is so cool!
+
 private:
     QGraphicsItemGroup *playtime;   // Playtime
     QGraphicsItemGroup *player;     // Actual player

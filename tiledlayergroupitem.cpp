@@ -14,11 +14,11 @@ TiledLayerGroupItem::TiledLayerGroupItem(QJsonObject data,TiledTileSet* tileset)
 
 QHash<QString, QString> TiledLayerGroupItem::getTilePropretyByPos(int x, int y)
 {
-    int xPosInTiles = (int)(x / width);
-    int yPosInTIles = (int)(y / height)+1;
-    int index = yPosInTIles * width + xPosInTiles;
-    qDebug() << xPosInTiles << " " << yPosInTIles;
-    return tileset->getTileProps(data.at(index).toInt()-1);
+    int xPosInTiles = (int)(x / 32);
+    int yPosInTIles = (int)(y / 32);
+    int index = (1+yPosInTIles) * (1+xPosInTiles);
+    qDebug() << xPosInTiles << " " << yPosInTIles << " " << index-1;
+    return tileset->getTileProps(data.at(index-1).toInt()-1);
 }
 
 

@@ -6,14 +6,14 @@
 #include <QDebug>
 #include "tiledjsonmapparsor.h"
 
-MyCharacter::MyCharacter(int x, int y,QGraphicsScene* parent,TiledJsonMapParsor *mapParsor)
+MyCharacter::MyCharacter(int x, int y,bool isSelected,QGraphicsScene* parent,TiledJsonMapParsor *mapParsor)
 {
 
     this->mapParsor = mapParsor;
     this->setX(x);
     this->setY(y);
-    pix = new QPixmap(":/img/character/blueballhalo.png");
-    setPixmap(pix->copy(0,0,50,50));
+    this->isSelectedPlayer = isSelected;
+    setImage(isSelected);
     updateTimer = new QTimer();
     QObject::connect(updateTimer, SIGNAL(timeout()), this, SLOT(updateEnv()));
     sonarPower = new SonarPowar(parent,this,mapParsor);
@@ -27,22 +27,18 @@ void MyCharacter::keyPressEvent(QKeyEvent *event)
         case Qt::Key_A :
         case Qt::Key_Left :
             this->KeyLeft = true;
-            setPixmap(pix->copy(0,575,50,75));
             break;
         case Qt::Key_D :
         case Qt::Key_Right :
             this->KeyRight = true;
-            setPixmap(pix->copy(0,705,50,75));
             break;
         case Qt::Key_W :
         case Qt::Key_Up :
             this->KeyUp = true;
-            setPixmap(pix->copy(0,510,50,75));
             break;
         case Qt::Key_S :
         case Qt::Key_Down :
             this->KeyDown = true;
-            setPixmap(pix->copy(0,640,50,75));
             break;
         case Qt::Key_Space :
             sonar();
@@ -108,11 +104,25 @@ void MyCharacter::movePlayer()
     }
 }
 
+void MyCharacter::setImage(bool isSelectedPlayer)
+{
+    if(isSelectedPlayer) setPixmap(QPixmap(":/img/character/blueballhalo.png"));
+    else{
+        setPixmap(QPixmap(":/img/character/blueballshadow.png"));
+    }
+    this->pixSize = this->pixmap().size().width();
+}
+void MyCharacter::stop(){
+    KeyDown = false;
+    KeyLeft = false;
+    KeyRight = false;
+    KeyUp = false;
+}
+
 void MyCharacter::updateEnv()
 {
     this->movePlayer();
     sonarPower->update();
-    qDebug() << mapParsor->layers->value("Ground")->getTilePropretyByPos(x()+25,y()+25);
 }
 
 void MyCharacter::sonar()
@@ -122,18 +132,15 @@ void MyCharacter::sonar()
 
 void MyCharacter::touched()
 {
-    pix = new QPixmap(":/img/character/redballhalo.png");
-    setPixmap(pix->copy(0,0,50,75));
+    setPixmap(QPixmap(":/img/character/redballhalo.png"));
     hitAnimationTimer = new QTimer();
-
     connect(hitAnimationTimer, SIGNAL(timeout()), this, SLOT(animationTouched()));
     hitAnimationTimer->start();
     hitAnimationTimer->setInterval(500);
 }
 void MyCharacter::animationTouched()
 {
-    pix = new QPixmap(":/img/character/blueballhalo.png");
-    setPixmap(pix->copy(0,0,50,75));
+    setImage(this->isSelectedPlayer);
     hitAnimationTimer->stop();
 
 }

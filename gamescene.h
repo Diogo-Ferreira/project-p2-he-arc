@@ -19,12 +19,12 @@ public:
     QList<MyCharacter*> characters;
     int character = 0;
     GameHUD *gameHUD;
-    QGraphicsEllipseItem *posHelper;//Pour le aider à debugger
 protected:
 
 private:
     TiledJsonMapParsor *mapParsor;
     QGraphicsPixmapItem *sonarView;
+    void checkIfPlayersTogheter();
 };
 
 #endif // GAMESCENE_H

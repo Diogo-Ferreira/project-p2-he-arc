@@ -22,6 +22,7 @@ private:
     double animIter;
     bool isFired;
     double animSpeed = 0.01/3;//A regler en fonction de l'update
+    int pixSize;//pour y accéder plus rapidement
 
 
 };

@@ -19,7 +19,6 @@ QHash<QString, QString> TiledLayerGroupItem::getTilePropretyByPos(int x, int y)
     int xPosInTiles = (int)(x / 32);
     int yPosInTIles = (int)(y / 32);
     int index = yPosInTIles*60 + (xPosInTiles+1);
-    qDebug() << xPosInTiles << " " << yPosInTIles << " " << data.at(index-1).toInt()-1;
     return tileset->getTileProps(data.at(index-1).toInt()-1);
 }
 

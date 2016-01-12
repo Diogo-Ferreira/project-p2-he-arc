@@ -17,18 +17,17 @@ void SonarPowar::fire(){
     if(!this->isFired)
     {
         QPixmap pix = QPixmap(":img/character/sonar.png");
+        pixSize = pix.size().width();
         circle = new QGraphicsPixmapItem(pix);
 
-        circle->setX(player->x()+25);
-        circle->setY(player->y()+25);
+        circle->setX(player->x()+0.5*player->pixSize);
+        circle->setY(player->y()+0.5*player->pixSize);
         circle->setZValue(96);
-        circle->setTransformOriginPoint(150,150);
+        circle->setTransformOriginPoint(0.5*pixSize,0.5*pixSize);
 
         animIter = 0.00;
         isAnimFinished = false;
         scene->addItem(circle);
-        animIter = 0.00;
-
         this->isFired = true;
     }
 }
@@ -40,14 +39,14 @@ void SonarPowar::update(){
         scene->removeItem(sonarView);
         delete sonarView;
         sonarView = new QGraphicsPixmapItem(mapParsor->layers->value("Ground")->getLayerImgCopy(
-                            (player->x()+25)-150*animIter,
-                            (player->y()+25)-150*animIter,
-                            300*animIter,
-                            300*animIter,
+                            (player->x()+0.5*player->pixSize)-0.5*pixSize*animIter,
+                            (player->y()+0.5*player->pixSize)-0.5*pixSize*animIter,
+                            pixSize*animIter,
+                            pixSize*animIter,
                             QPixmap(":/img/character/sonarmask.png")
                     ));
-        sonarView->setPos((player->pos().x()+25) - sonarView->pixmap().size().width()/2,(player->pos().y()+25)- sonarView->pixmap().size().height()/2);
-        circle->setPos((player->pos().x()+25) - circle->pixmap().size().width()/2,(player->pos().y()+25)- circle->pixmap().size().height()/2);
+        sonarView->setPos((player->pos().x()+0.5*player->pixSize) - sonarView->pixmap().size().width()/2,(player->pos().y()+0.5*player->pixSize)- sonarView->pixmap().size().height()/2);
+        circle->setPos((player->pos().x()+0.5*player->pixSize) - circle->pixmap().size().width()/2,(player->pos().y()+0.5*player->pixSize)- circle->pixmap().size().height()/2);
         scene->addItem(sonarView);
         if(isAnimFinished)
         {

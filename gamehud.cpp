@@ -2,10 +2,9 @@
 #include <QtWidgets>
 
 
-GameHUD::GameHUD()
+GameHUD::GameHUD(int nEmissions, int nCheckpoints)
 {
 
-    int spacing = 34;
 
     // HUD groups initialization
     this->playtime  =   new QGraphicsItemGroup();
@@ -13,6 +12,9 @@ GameHUD::GameHUD()
     this->sonar     =   new QGraphicsItemGroup();
     this->level     =   new QGraphicsItemGroup();
 
+    // Values
+    this->nbEmissions = nEmissions;
+    this->nbCheckpoints = nCheckpoints;
 
     // Personal font Use
     QFontDatabase::addApplicationFont(":/fonts/dicishandwrite.ttf");
@@ -42,20 +44,6 @@ GameHUD::GameHUD()
     txtCheck->setPos(50, 600);
 
 
-    for(int i = 0; i <= 4; i++){
-        QGraphicsPixmapItem *picCheckA = new QGraphicsPixmapItem(QPixmap(":/img/hud/checkA.png"));
-        picCheckA->setPos(50 + (spacing*i),640);
-        this->level->addToGroup(picCheckA);
-    }
-
-    for(int i = 0; i <= 3; i++){
-        QGraphicsPixmapItem *picCheckI = new QGraphicsPixmapItem(QPixmap(":/img/hud/checkI.png"));
-        picCheckI->setPos(50 + (4*spacing) + (spacing*i),640);
-        this->level->addToGroup(picCheckI);
-    }
-
-
-
     // Construction of the player group
     QGraphicsTextItem *txtPlayer = new QGraphicsTextItem("Player");
     txtPlayer->setDefaultTextColor(Qt::white); // Text Color
@@ -68,20 +56,6 @@ GameHUD::GameHUD()
     txtSonarEmission->setDefaultTextColor(Qt::white); // Text Color
     txtSonarEmission->setFont(*dicisHUD);
     txtSonarEmission->setPos(1000, 600);
-
-    for(int i = 0; i <= 3; i++){
-        QGraphicsPixmapItem *sonarA = new QGraphicsPixmapItem(QPixmap(":/img/hud/sonarA.png"));
-        sonarA->setPos(1200 - (spacing*i),640);
-        this->level->addToGroup(sonarA);
-    }
-
-    for(int i = 0; i <= 4; i++){
-        QGraphicsPixmapItem *sonarI = new QGraphicsPixmapItem(QPixmap(":/img/hud/sonarI.png"));
-        sonarI->setPos(1200 - (4*spacing) - (spacing*i),640);
-        this->level->addToGroup(sonarI);
-    }
-
-
 
 
     this->sonar->addToGroup(txtSonarEmission);
@@ -101,15 +75,52 @@ GameHUD::GameHUD()
     this->addToGroup(sonar);
     this->addToGroup(player);
 
-    /*
-    QHBoxLayout *line1 = new QHBoxLayout;
-    QHBoxLayout *line2 = new QHBoxLayout;
-    QVBoxLayout *col1 = new QVBoxLayout;
-*/
 
-
-// http://doc.qt.io/qt-5/qgraphicslinearlayout.html
-// http://www.qtcentre.org/threads/33998-Issue-in-placing-the-QGraphicsItems-into-QGraphicsLayout
-//http://doc.qt.io/qt-5/qtwidgets-graphicsview-basicgraphicslayouts-example.html
+    // Init (premier update)
+    this->update(this->nbEmissions, this->nbEmissions, this->nbCheckpoints, this->nbCheckpoints);
 }
+
+
+void GameHUD::init(){
+}
+
+void GameHUD::update(int nbEmissions, int nbEmissionsLeft, int nbCheckpoints, int nbCheckpointsLeft){
+
+    this->removeItems();
+
+    int spacing = 34;
+
+    // Update the checkpoints pixmaps elements
+    for(int i = 1; i <= nbCheckpointsLeft; i++){
+        QGraphicsPixmapItem *picCheckA = new QGraphicsPixmapItem(QPixmap(":/img/hud/checkA.png"));
+        picCheckA->setPos(50 + (spacing*i),640);
+        this->level->addToGroup(picCheckA);
+    }
+
+    for(int i = 1; i <= nbCheckpoints - nbCheckpointsLeft; i++){
+        QGraphicsPixmapItem *picCheckI = new QGraphicsPixmapItem(QPixmap(":/img/hud/checkI.png"));
+        picCheckI->setPos(50 + (nbCheckpointsLeft*spacing) + (spacing*i),640);
+        this->level->addToGroup(picCheckI);
+    }
+
+    // Update the sonar pixmaps elements
+    for(int i = 1; i <= nbEmissionsLeft; i++){
+        QGraphicsPixmapItem *sonarA = new QGraphicsPixmapItem(QPixmap(":/img/hud/sonarA.png"));
+        sonarA->setPos(1200 - (spacing*i),640);
+        this->sonar->addToGroup(sonarA);
+    }
+
+    for(int i = 1; i <= nbEmissions - nbEmissionsLeft; i++){
+        QGraphicsPixmapItem *sonarI = new QGraphicsPixmapItem(QPixmap(":/img/hud/sonarI.png"));
+        sonarI->setPos(1200 - (nbEmissionsLeft*spacing) - (spacing*i),640);
+        this->sonar->addToGroup(sonarI);
+    }
+}
+
+void GameHUD::removeItems(){
+
+    qDeleteAll(this->sonar->childItems());
+
+}
+
 

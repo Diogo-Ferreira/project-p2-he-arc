@@ -7,8 +7,9 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
     view->setScene(scene);
     view->setVerticalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
     view->setHorizontalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
-    //view->setViewport(new QGLWidget());
     view->show();
+
+    //Pour des raisons de timing, la fenêtre est en taille fixe.
     resize(1280,720);
 }
 

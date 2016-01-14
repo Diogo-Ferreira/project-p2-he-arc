@@ -1,5 +1,9 @@
 #include "tiledjsonmapparsor.h"
 #include "tiledtileset.h"
+/**
+ * @brief Parseur map tiled format json
+ * @param mapName nom de la carte au format JSON
+ */
 TiledJsonMapParsor::TiledJsonMapParsor(QString mapName)
 {
 
@@ -16,7 +20,10 @@ TiledJsonMapParsor::TiledJsonMapParsor(QString mapName)
 
 }
 
-
+/**
+ * @brief charger les propriétées, calques et tileset
+ * @param doc document principale json à charger
+ */
 void TiledJsonMapParsor::preloadData(QJsonDocument doc)
 {
     QJsonObject mainProps = doc.object();
@@ -41,7 +48,12 @@ void TiledJsonMapParsor::preloadData(QJsonDocument doc)
         layers->insert(QString(temp["name"].toString()),new TiledLayerGroupItem(temp,tilesets->first()));
     }
 }
-
+/**
+ * @brief Test si le joueur est en collision avec un élement bloquant de la carte
+ * @param pos position actuel du joueur
+ * @param bounds hitbox
+ * @return true si collision, false sinon
+ */
 bool TiledJsonMapParsor::doesPlayerCollide(QPoint pos, QRect bounds)
 {
     QHash<QString,QString> prop = layers->value("Ground")->getTilePropretyByPos(pos.x(),pos.y());

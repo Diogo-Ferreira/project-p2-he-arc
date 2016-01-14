@@ -1,5 +1,9 @@
 #include "tiledlayergroupitem.h"
-
+/**
+ * @brief Calque tiled
+ * @param data donnée json sur le calque
+ * @param tileset tileset à utiliser pour ce calque
+ */
 TiledLayerGroupItem::TiledLayerGroupItem(QJsonObject data,TiledTileSet* tileset):QGraphicsItemGroup()
 {
     this->data = data["data"].toArray();
@@ -11,7 +15,12 @@ TiledLayerGroupItem::TiledLayerGroupItem(QJsonObject data,TiledTileSet* tileset)
     buildLayer();
     createLayerImg();
 }
-
+/**
+ * @brief Récuperer les propriétes de la tuille à la position x,y
+ * @param x
+ * @param y
+ * @return Hash des propirétées trouvées
+ */
 QHash<QString, QString> TiledLayerGroupItem::getTilePropretyByPos(int x, int y)
 {
     x += 320;
@@ -22,7 +31,9 @@ QHash<QString, QString> TiledLayerGroupItem::getTilePropretyByPos(int x, int y)
     return tileset->getTileProps(data.at(index-1).toInt()-1);
 }
 
-
+/**
+ * @brief Construction du calque (Ensemble de QGraphicsPixMapItem pour chaque tuille)
+ */
 void TiledLayerGroupItem::buildLayer()
 {
     int c =0;
@@ -40,7 +51,9 @@ void TiledLayerGroupItem::buildLayer()
         }
     }
 }
-
+/**
+ * @brief Capture une image de la carte entière
+ */
 void TiledLayerGroupItem::createLayerImg(){
     QGraphicsScene *tempScene = new QGraphicsScene();
     tempScene->addItem(this);
@@ -49,6 +62,15 @@ void TiledLayerGroupItem::createLayerImg(){
     tempScene->render(p);
 }
 
+/**
+ * @brief Rogne une zone de la carte puis applique un masque si celui-ci est non null
+ * @param x
+ * @param y
+ * @param w largeur
+ * @param h hauteur
+ * @param mask masque à appliquer à l'image rogné
+ * @return l'image rogné passé par le masque
+ */
 QPixmap TiledLayerGroupItem::getLayerImgCopy(int x,int y,int w,int h,QPixmap mask){
     //Quick Fix, dirty as fuck
     x += 320;

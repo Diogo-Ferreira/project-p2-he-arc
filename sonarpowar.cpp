@@ -11,7 +11,9 @@ SonarPowar::SonarPowar(QGraphicsScene* scene,MyCharacter *player,TiledJsonMapPar
     circle = new QGraphicsPixmapItem();
 }
 
-
+/**
+ * @brief Enclenchement du sonar
+ */
 void SonarPowar::fire(){
 
     if(!this->isFired)
@@ -32,6 +34,9 @@ void SonarPowar::fire(){
     }
 }
 
+/**
+ * @brief Mise à jour de l'aniation + capture du sonar
+ */
 void SonarPowar::update(){
     if(this->isFired)
     {

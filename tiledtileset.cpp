@@ -1,5 +1,11 @@
 #include "tiledtileset.h"
-
+/**
+ * @brief Ensemble de tuilles pour la map
+ * @param firstGid premier id (réf dans le fichier json)
+ * @param fileName chemin fichier du tileset
+ * @param tileW largeur d'une tuille
+ * @param tileH hauteur d'une tuille
+ */
 TiledTileSet::TiledTileSet(int firstGid,QString fileName,int tileW,int tileH)
 {
 
@@ -8,7 +14,10 @@ TiledTileSet::TiledTileSet(int firstGid,QString fileName,int tileW,int tileH)
    this->tileHeight = tileH;
    this->tileWidth = tileW;
 }
-
+/**
+ * @brief Ensemble de tuilles pour la map
+ * @param data données du tileset format JSON
+ */
 TiledTileSet::TiledTileSet(QJsonObject data)
 {
     firstgid = data["firstgid"].toInt();
@@ -17,8 +26,10 @@ TiledTileSet::TiledTileSet(QJsonObject data)
     tileWidth = data["tilewidth"].toInt();
     fillProperties(data);
 }
-
-
+/**
+ * @brief Remplit la liste de propirétées
+ * @param data données format JSON
+ */
 void TiledTileSet::fillProperties(QJsonObject data)
 {
     propreties = new QHash<QString,QHash<QString,QString> >();
@@ -33,7 +44,12 @@ void TiledTileSet::fillProperties(QJsonObject data)
         propreties->insert(v,propsHash);
     }
 }
-
+/**
+ * @brief Récupère la tuille suivant son ID, attention il y a une différence de 1
+ *        entre les index du fichier et ceux afficher dans l'interface de tiled.
+ * @param index identifiant de la tuille, voir sous tiled et faire -1
+ * @return image de la tuille
+ */
 QPixmap TiledTileSet::getTile(int index)
 {
     QRect tile = QRect(
@@ -44,7 +60,11 @@ QPixmap TiledTileSet::getTile(int index)
     );
     return tileSheetImage->copy(tile);
 }
-
+/**
+ * @brief Récupère les propriétées d'une tuille par son ID
+ * @param index ID tuille
+ * @return hash des propriétées
+ */
 QHash<QString, QString> TiledTileSet::getTileProps(int index)
 {
     return propreties->value(QString::number(index));

@@ -44,6 +44,11 @@ GameScene::GameScene()
 
 }
 
+/**
+ * @brief Gestion des touches, particulièrement la touche P pour
+ *        changer de joueur, le reste est transférer vers le joueur
+ * @param event
+ */
 void GameScene::keyPressEvent(QKeyEvent *event)
 {
     switch(event->key())
@@ -62,7 +67,9 @@ void GameScene::keyPressEvent(QKeyEvent *event)
             break;
     }
 }
-
+/**
+ * @brief Test si les 2 joueurs sont proches (condition de victoire)
+ */
 void GameScene::checkIfPlayersTogheter(){
     QPointF p1 = characters.first()->pos();
     QPointF p2 = characters.last()->pos();
@@ -74,7 +81,10 @@ void GameScene::checkIfPlayersTogheter(){
                 tr("Victoire !") );
     }
 }
-
+/**
+ * @brief Propagation des events dans le personnage
+ * @param event
+ */
 void GameScene::keyReleaseEvent(QKeyEvent *event)
 {
     characters[character]->keyReleaseEvent(event);

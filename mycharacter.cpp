@@ -5,7 +5,14 @@
 #include <QThread>
 #include <QDebug>
 #include "tiledjsonmapparsor.h"
-
+/**
+ * @brief Joueur aveugle
+ * @param x pos départ x
+ * @param y pos départ y
+ * @param isSelected joeur actif ?
+ * @param parent scene parente
+ * @param mapParsor parse de carte
+ */
 MyCharacter::MyCharacter(int x, int y,bool isSelected,QGraphicsScene* parent,TiledJsonMapParsor *mapParsor)
 {
 
@@ -20,6 +27,11 @@ MyCharacter::MyCharacter(int x, int y,bool isSelected,QGraphicsScene* parent,Til
     updateTimer->start(3);
 }
 
+/**
+ * @brief Gestion des touches (préssés) afin de définir la direction
+ *        de déplacement du joueur.
+ * @param event
+ */
 void MyCharacter::keyPressEvent(QKeyEvent *event)
 {
     switch(event->key())
@@ -46,7 +58,11 @@ void MyCharacter::keyPressEvent(QKeyEvent *event)
     }
     this->movePlayer();
 }
-
+/**
+ * @brief Gestion des touches (relevés) afin de définir la direction
+ *        de déplacement du joueur.
+ * @param event
+ */
 void MyCharacter::keyReleaseEvent(QKeyEvent *event)
 {
     switch(event->key())
@@ -70,7 +86,10 @@ void MyCharacter::keyReleaseEvent(QKeyEvent *event)
     }
     this->movePlayer();
 }
-
+/**
+ * @brief Mise à jour de la position du joueur suivant sa direction de déplacement,
+ *        et égalment test si le joueur est en collision avec un mur.
+ */
 void MyCharacter::movePlayer()
 {
     if (this->KeyLeft){
@@ -103,7 +122,10 @@ void MyCharacter::movePlayer()
         }
     }
 }
-
+/**
+ * @brief Change l'image du joueur suivant si c'est le joueur actuel.
+ * @param isSelectedPlayer joueur actuel ?
+ */
 void MyCharacter::setImage(bool isSelectedPlayer)
 {
     if(isSelectedPlayer) setPixmap(QPixmap(":/img/character/blueballhalo.png"));
@@ -112,6 +134,10 @@ void MyCharacter::setImage(bool isSelectedPlayer)
     }
     this->pixSize = this->pixmap().size().width();
 }
+
+/**
+ * @brief Arrete le déplacement du joueur.
+ */
 void MyCharacter::stop(){
     KeyDown = false;
     KeyLeft = false;
@@ -119,17 +145,28 @@ void MyCharacter::stop(){
     KeyUp = false;
 }
 
+/**
+ * @brief Méthode appeler par le timer de mise à jour pour le
+ *        le déplacmement du personnage et ainsi que la mise à
+ *        jour du sonar.
+ */
 void MyCharacter::updateEnv()
 {
     this->movePlayer();
     sonarPower->update();
 }
 
+/**
+ * @brief mise à feu du sonar
+ */
 void MyCharacter::sonar()
 {
     sonarPower->fire();
 }
 
+/**
+ * @brief Animation lorsque le joueur touche un mur.
+ */
 void MyCharacter::touched()
 {
     setPixmap(QPixmap(":/img/character/redballhalo.png"));
@@ -138,6 +175,10 @@ void MyCharacter::touched()
     hitAnimationTimer->start();
     hitAnimationTimer->setInterval(500);
 }
+
+/**
+ * @brief Fin animation touched.
+ */
 void MyCharacter::animationTouched()
 {
     setImage(this->isSelectedPlayer);

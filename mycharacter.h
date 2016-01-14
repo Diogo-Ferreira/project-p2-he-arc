@@ -17,18 +17,14 @@ public :
     void movePlayer();
     void setImage(bool isSelectedPlayer);
     void stop();
+    QTimer *hitAnimationTimer;
+    QTimer *updateTimer;
+    int pixSize;//pour y accéder rapidement
+private :
     bool KeyUp = false;
     bool KeyDown = false;
     bool KeyRight = false;
     bool KeyLeft = false;
-    bool personnage = true;
-    int id;
-    QTimer *hitAnimationTimer;
-    QTimer *updateTimer;
-    int pixSize;//pour y accéder rapidement
-
-
-private :
     SonarPowar *sonarPower;
     TiledJsonMapParsor *mapParsor;
     void sonar();

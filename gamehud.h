@@ -3,8 +3,11 @@
 
 #include <QtWidgets>
 
+
 class GameHUD : public QGraphicsItemGroup
 {
+    Q_OBJECT
+
 public:
     GameHUD(int nbEmissions, int nbCheckpoints);
     void update(int nbEmissions, int nbEmissionsLeft, int nbCheckpoints, int nbCheckpointsLeft);
@@ -16,6 +19,8 @@ private:
     QGraphicsItemGroup *sonar;      // Sonar emissions left
     QGraphicsItemGroup *level;      // Level / Checkpoints
 
+    QTimer *timer;
+
     // Values
     int nbEmissions;
     int nbEmissionsLeft;
@@ -26,6 +31,8 @@ private:
 
     void increase();
 
+public slots:
+    void updateTime();
 };
 
 #endif // GAMEHUD_H

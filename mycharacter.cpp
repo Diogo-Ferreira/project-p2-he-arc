@@ -5,6 +5,7 @@
 #include <QThread>
 #include <QDebug>
 #include "tiledjsonmapparsor.h"
+#include "gamescene.h"
 /**
  * @brief Joueur aveugle
  * @param x pos départ x
@@ -13,18 +14,22 @@
  * @param parent scene parente
  * @param mapParsor parse de carte
  */
-MyCharacter::MyCharacter(int x, int y,bool isSelected,QGraphicsScene* parent,TiledJsonMapParsor *mapParsor)
+MyCharacter::MyCharacter(int x, int y, int nbSonarMax, QString name, bool isSelected,QGraphicsScene* parent,TiledJsonMapParsor *mapParsor)
 {
-
     this->mapParsor = mapParsor;
     this->setX(x);
     this->setY(y);
     this->isSelectedPlayer = isSelected;
+    this->nbSonarMax = nbSonarMax;
+    this->nbSonarLeft = nbSonarMax;
+    this->name = name;
     setImage(isSelected);
     updateTimer = new QTimer();
+    this->scene = dynamic_cast<GameScene*>(parent);
     QObject::connect(updateTimer, SIGNAL(timeout()), this, SLOT(updateEnv()));
     sonarPower = new SonarPowar(parent,this,mapParsor);
     updateTimer->start(3);
+
 }
 
 /**
@@ -54,6 +59,9 @@ void MyCharacter::keyPressEvent(QKeyEvent *event)
             break;
         case Qt::Key_Space :
             sonar();
+
+            qDebug() << this->nbSonarLeft;
+            this->scene->gameHUD->update(this->nbSonarMax, this->nbSonarLeft);
             break;
     }
     this->movePlayer();
@@ -157,11 +165,14 @@ void MyCharacter::updateEnv()
 }
 
 /**
- * @brief mise à feu du sonar
+ * @brief mise à feu du sonar s'il reste des émissions pour ce personnage
  */
 void MyCharacter::sonar()
 {
-    sonarPower->fire();
+    if(this->nbSonarLeft >= 1 && !sonarPower->isFired){
+        this->nbSonarLeft--;
+        sonarPower->fire();
+    }
 }
 
 /**

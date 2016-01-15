@@ -10,13 +10,10 @@ GameScene::GameScene()
 {
 
     mapParsor = new TiledJsonMapParsor(":map/level3.json");
-    //QGraphicsItemGroup *map = mapParsor->layers->value("Ground");
-    //addItem(map);
-    //map->moveBy(-320,-640);
     this->setBackgroundBrush(QColor(29,42,55));
 
-    MyCharacter * char1 = new MyCharacter(25,25,true,this,mapParsor);
-    MyCharacter * char2 = new MyCharacter(1200,640,false,this,mapParsor);
+    MyCharacter * char1 = new MyCharacter(25, 25, 4, "Ray", true, this, mapParsor);
+    MyCharacter * char2 = new MyCharacter(1200, 640, 4, "Nina", false, this, mapParsor);
 
     this->addItem(char1);
     this->addItem(char2);
@@ -30,18 +27,22 @@ GameScene::GameScene()
     QRect rect(0,0,1280,720);
     this->setSceneRect(rect);
 
-
     // HUD
     this->gameHUD = new GameHUD();
+    this->gameHUD->update(char1->nbSonarMax, char2->nbSonarLeft);
     this->gameHUD->setZValue(100); // Top Layer
     this->addItem(gameHUD);
 
-    //MUSIC
+    // Music
     QMediaPlayer * music = new QMediaPlayer();
     music->setMedia(QUrl(":sounds/music.mp3"));
     music->setVolume(100);
     music->play();
 
+    // Timer
+    QTimer *timer = new QTimer();
+    connect(timer, SIGNAL(timeout()), this, SLOT(timer()));
+    timer->start(1000);
 }
 
 /**
@@ -60,6 +61,8 @@ void GameScene::keyPressEvent(QKeyEvent *event)
             character++;
             if(character > characters.count()-1) character = 0;
             characters[character]->setImage(true);
+            this->gameHUD->update(characters[character]->nbSonarMax, characters[character]->nbSonarLeft);
+            this->gameHUD->updateName(characters[character]->name);
             break;
         default:
             checkIfPlayersTogheter();
@@ -88,4 +91,12 @@ void GameScene::checkIfPlayersTogheter(){
 void GameScene::keyReleaseEvent(QKeyEvent *event)
 {
     characters[character]->keyReleaseEvent(event);
+}
+
+/**
+ * @brief Calcul du temps de jeu.
+ */
+void GameScene::timer(){
+    this->time++;
+    this->gameHUD->updateTime(this->time);
 }

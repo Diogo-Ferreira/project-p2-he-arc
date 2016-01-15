@@ -11,6 +11,7 @@ public:
     SonarPowar(QGraphicsScene *scene,MyCharacter *player,TiledJsonMapParsor *mapParsor);
     void fire();
     void update();
+    bool isFired;
 
 private:
     QGraphicsPixmapItem *sonarView;
@@ -20,7 +21,7 @@ private:
     TiledJsonMapParsor *mapParsor;
     bool isAnimFinished;
     double animIter;
-    bool isFired;
+
     double animSpeed = 0.01/3;//A regler en fonction de l'update
     int pixSize;//pour y accéder plus rapidement
 

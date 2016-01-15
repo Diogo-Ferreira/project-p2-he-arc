@@ -2,15 +2,16 @@
 #define GAMEHUD_H
 
 #include <QtWidgets>
-
+#include <QObject>
 
 class GameHUD : public QGraphicsItemGroup
 {
-    Q_OBJECT
 
 public:
-    GameHUD(int nbEmissions, int nbCheckpoints);
-    void update(int nbEmissions, int nbEmissionsLeft, int nbCheckpoints, int nbCheckpointsLeft);
+    GameHUD();
+    void update(int nbEmissions, int nbEmissionsLeft);
+    void updateName(QString name);
+    void updateTime(int time);
     void removeItems();
 
 private:
@@ -18,21 +19,8 @@ private:
     QGraphicsItemGroup *player;     // Actual player
     QGraphicsItemGroup *sonar;      // Sonar emissions left
     QGraphicsItemGroup *level;      // Level / Checkpoints
-
-    QTimer *timer;
-
-    // Values
-    int nbEmissions;
-    int nbEmissionsLeft;
-    int nbCheckpoints;
-    int nbCheckpointsLeft;
-
-    void init();
-
-    void increase();
-
-public slots:
-    void updateTime();
+    QGraphicsTextItem *txtPlayerName;
+    QGraphicsTextItem *txtPlaytime;
 };
 
 #endif // GAMEHUD_H

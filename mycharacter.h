@@ -7,11 +7,15 @@
 #include <QList>
 #include <QGraphicsPixmapItem>
 #include "sonarpowar.h"
+#include "gamescene.h"
+
 class TiledJsonMapParsor;
+class GameScene;
+
 class MyCharacter: public QObject, public QGraphicsPixmapItem{
     Q_OBJECT
 public :
-    MyCharacter(int x, int y,bool isSelected,QGraphicsScene *parent,TiledJsonMapParsor *mapParsor);
+    MyCharacter(int x, int y, int nbSonarMax, QString name, bool isSelected,QGraphicsScene *parent,TiledJsonMapParsor *mapParsor);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     void movePlayer();
@@ -20,6 +24,12 @@ public :
     QTimer *hitAnimationTimer;
     QTimer *updateTimer;
     int pixSize;//pour y accéder rapidement
+    GameScene *scene;
+    int nbSonarMax;
+    int nbSonarLeft;
+    QString name;
+
+
 private :
     bool KeyUp = false;
     bool KeyDown = false;
@@ -30,6 +40,11 @@ private :
     void sonar();
     int speed = 1;
     bool isSelectedPlayer;
+
+
+
+
+
 public slots :
     void updateEnv();
     void touched();

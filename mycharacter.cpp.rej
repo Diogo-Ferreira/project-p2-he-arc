@@ -1,0 +1,35 @@
+--- mycharacter.cpp
++++ mycharacter.cpp
+@@ -93,28 +93,28 @@ void MyCharacter::keyReleaseEvent(QKeyEvent *event)
+ void MyCharacter::movePlayer()
+ {
+     if (this->KeyLeft){
+-        if(!mapParsor->doesPlayerCollide(QPoint(x()-speed, y()+0.5*pixSize),QRect())){
++        if(!mapParsor->doesPlayerCollide(QPoint(x()-speed, y()),QRect())){
+             setPos(x()-speed, y());
+         }else{
+             touched();
+         }
+     }
+     if(this->KeyRight){
+-        if(!mapParsor->doesPlayerCollide(QPoint(x()+speed + pixSize , y()+0.5*pixSize),QRect())) {
++        if(!mapParsor->doesPlayerCollide(QPoint(x()+speed + 25 , y()),QRect())) {
+          setPos(x()+speed, y());
+         }else{
+             touched();
+         }
+     }
+     if (this->KeyDown){
+-        if(!mapParsor->doesPlayerCollide(QPoint(x()+0.5*pixSize, y()+speed+pixSize),QRect())) {
++        if(!mapParsor->doesPlayerCollide(QPoint(x(), y()+speed+25),QRect())) {
+             setPos(x(), y()+speed);
+         }else{
+             touched();
+         }
+     }
+     if (this->KeyUp){
+-        if(!mapParsor->doesPlayerCollide(QPoint(x()+0.5*pixSize, y()-speed),QRect())){
++        if(!mapParsor->doesPlayerCollide(QPoint(x(), y()-speed),QRect())){
+ 
+         setPos(x(), y()-speed);
+         }else{

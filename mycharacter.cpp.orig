@@ -101,30 +101,30 @@ void MyCharacter::keyReleaseEvent(QKeyEvent *event)
 void MyCharacter::movePlayer()
 {
     if (this->KeyLeft){
-        if(!mapParsor->doesPlayerCollide(QPoint(x()-speed, y()+0.5*pixSize),QRect())){
+        if(!mapParsor->doesPlayerCollide(QPoint(x()-speed, y()),QRect())){
             setPos(x()-speed, y());
         }else{
             touched();
         }
     }
     if(this->KeyRight){
-        if(!mapParsor->doesPlayerCollide(QPoint(x()+speed + pixSize , y()+0.5*pixSize),QRect())) {
-            setPos(x()+speed, y());
+        if(!mapParsor->doesPlayerCollide(QPoint(x()+speed + 25 , y()),QRect())) {
+         setPos(x()+speed, y());
         }else{
             touched();
         }
     }
     if (this->KeyDown){
-        if(!mapParsor->doesPlayerCollide(QPoint(x()+0.5*pixSize, y()+speed+pixSize),QRect())) {
+        if(!mapParsor->doesPlayerCollide(QPoint(x(), y()+speed+25),QRect())) {
             setPos(x(), y()+speed);
         }else{
             touched();
         }
     }
     if (this->KeyUp){
-        if(!mapParsor->doesPlayerCollide(QPoint(x()+0.5*pixSize, y()-speed),QRect())){
+        if(!mapParsor->doesPlayerCollide(QPoint(x(), y()-speed),QRect())){
 
-            setPos(x(), y()-speed);
+        setPos(x(), y()-speed);
         }else{
             touched();
         }
@@ -180,8 +180,6 @@ void MyCharacter::sonar()
  */
 void MyCharacter::touched()
 {
-    lifes --;
-    this->stop();
     setPixmap(QPixmap(":/img/character/redballhalo.png"));
     hitAnimationTimer = new QTimer();
     connect(hitAnimationTimer, SIGNAL(timeout()), this, SLOT(animationTouched()));

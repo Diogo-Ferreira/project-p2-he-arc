@@ -23,11 +23,15 @@ TiledLayerGroupItem::TiledLayerGroupItem(QJsonObject data,TiledTileSet* tileset)
  */
 QHash<QString, QString> TiledLayerGroupItem::getTilePropretyByPos(int x, int y)
 {
+    //Quick fix, pas très propre, mais le temps manquait, ceci pour evitez que le sonar
+    //Bug dans les coins de la fenêtre (L'image est déformé), nous avons donc créer des maps
+    //Ou la zone intéressante se trouve au centre de la carte afin d'avoir du "vide" tout autour
+    //Du niveau, ces 2 lignes nous décale donc au centre.
     x += 320;
     y += 640;
-    int xPosInTiles = (int)(x / 32);
-    int yPosInTIles = (int)(y / 32);
-    int index = yPosInTIles*60 + (xPosInTiles+1);
+    int xPosInTiles = (int)(x / tileset->tileWidth);
+    int yPosInTIles = (int)(y / tileset->tileHeight);
+    int index = yPosInTIles*width + (xPosInTiles+1);
     return tileset->getTileProps(data.at(index-1).toInt()-1);
 }
 
@@ -42,11 +46,9 @@ void TiledLayerGroupItem::buildLayer()
         for(int j=0;j<width;j++)
         {
             int index = c++;
-            //qDebug() << data.at(index).toInt()-1;
             QPixmap p = tileset->getTile(data.at(index).toInt()-1);
             QGraphicsPixmapItem *pix = new QGraphicsPixmapItem(p);
             pix->setPos(j * (tileset->tileWidth),i * (tileset->tileHeight));
-            //pix->setPos(0,0);
             addToGroup(pix);
         }
     }
@@ -72,7 +74,10 @@ void TiledLayerGroupItem::createLayerImg(){
  * @return l'image rogné passé par le masque
  */
 QPixmap TiledLayerGroupItem::getLayerImgCopy(int x,int y,int w,int h,QPixmap mask){
-    //Quick Fix, dirty as fuck
+    //Quick fix, pas très propre, mais le temps manquait, ceci pour evitez que le sonar
+    //Bug dans les coins de la fenêtre (L'image est déformé), nous avons donc créer des maps
+    //Ou la zone intéressante se trouve au centre de la carte afin d'avoir du "vide" tout autour
+    //Du niveau, ces 2 lignes nous décale donc au centre.
     x += 320;
     y += 640;
     if(mask.isNull())

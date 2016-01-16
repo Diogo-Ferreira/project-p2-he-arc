@@ -1,7 +1,5 @@
 #ifndef MYCHARACTER
 #define MYCHARACTER
-
-//#include <QGraphicsRectItem>
 #include <QGraphicsEllipseItem>
 #include <QObject>
 #include <QList>
@@ -28,8 +26,7 @@ public :
     int nbSonarMax;
     int nbSonarLeft;
     QString name;
-
-
+    int lifes = 5;
 private :
     bool KeyUp = false;
     bool KeyDown = false;
@@ -40,10 +37,6 @@ private :
     void sonar();
     int speed = 1;
     bool isSelectedPlayer;
-
-
-
-
 
 public slots :
     void updateEnv();

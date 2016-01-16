@@ -4,13 +4,12 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui
 QT += multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = TiledJsonParser
 TEMPLATE = app
-CONFIG+=C++11
 
 
 
@@ -32,6 +31,7 @@ HEADERS  += widget.h \
     gamescene.h \
     gamehud.h \
     sonarpowar.h
+
 
 RESOURCES += \
     assets.qrc

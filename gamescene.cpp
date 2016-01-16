@@ -9,6 +9,7 @@
 GameScene::GameScene()
 {
 
+    //Map
     mapParsor = new TiledJsonMapParsor(":map/level3.json");
     this->setBackgroundBrush(QColor(29,42,55));
 
@@ -56,17 +57,18 @@ void GameScene::keyPressEvent(QKeyEvent *event)
     {
         case Qt::Key_P :
             qDebug() << "Change de joueur" << endl;
-            characters[character]->stop();
-            characters[character]->setImage(false);
-            character++;
-            if(character > characters.count()-1) character = 0;
-            characters[character]->setImage(true);
-            this->gameHUD->update(characters[character]->nbSonarMax, characters[character]->nbSonarLeft);
-            this->gameHUD->updateName(characters[character]->name);
+            characters[characterId]->stop();
+            characters[characterId]->setImage(false);
+            characterId++;
+            if(characterId > characters.count()-1) characterId = 0;
+            characters[characterId]->setImage(true);
+            this->gameHUD->update(characters[characterId]->nbSonarMax, characters[characterId]->nbSonarLeft);
+            this->gameHUD->updateName(characters[characterId]->name);
             break;
         default:
+            checkIfPlayersArentDead();
             checkIfPlayersTogheter();
-            characters[character]->keyPressEvent(event);
+            characters[characterId]->keyPressEvent(event);
             break;
     }
 }
@@ -77,24 +79,42 @@ void GameScene::checkIfPlayersTogheter(){
     QPointF p1 = characters.first()->pos();
     QPointF p2 = characters.last()->pos();
     qDebug() << "magn : " << (p2 - p1).manhattanLength();
-    if((p2 - p1).manhattanLength() <= 30){
+    if(abs((p2 - p1).manhattanLength()) <= 30){
         QMessageBox::information(
                 NULL,
                 tr("Victoire !"),
                 tr("Victoire !") );
+        exit(0);
     }
 }
+
+
+/**
+ * @brief Un des des personnages est-il mort ? si oui on arrête le jeu
+ */
+void GameScene::checkIfPlayersArentDead(){
+
+    if(characters.first()->lifes <= 0 || characters.last()->lifes <= 0){
+        QMessageBox::information(
+                NULL,
+                tr("Defaite :( !"),
+                tr("Vous avez tué Nina et Rey :(") );
+        exit(0);//Un peu brutale, mais nous n'avons pas d'autre interface pour le moment
+    }
+
+}
+
 /**
  * @brief Propagation des events dans le personnage
  * @param event
  */
 void GameScene::keyReleaseEvent(QKeyEvent *event)
 {
-    characters[character]->keyReleaseEvent(event);
+    characters[characterId]->keyReleaseEvent(event);
 }
 
 /**
- * @brief Calcul du temps de jeu.
+ * @brief Calcul du temps de jeu (Approximatif).
  */
 void GameScene::timer(){
     this->time++;

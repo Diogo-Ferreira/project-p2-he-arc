@@ -16,26 +16,18 @@ public:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     GameScene();
+    //Dans notre cas avec 2 joueurs la liste n'est pas très adapter, mais au moins on peut ajouter plusieurs personnages sans limites par la suite
     QList<MyCharacter*> characters;
-    int character = 0;
+    int characterId = 0;
     GameHUD *gameHUD;
     int time = 0;
-
     QGraphicsEllipseItem *posHelper;//Pour le aider à debugger
-
-    int nbEmissions; // Nombre d'émissions à disposition
-    int nbCheckpoints; // Nombre de checkpoints du niveau
-
-
 
 private:
     TiledJsonMapParsor *mapParsor;
     QGraphicsPixmapItem *sonarView;
-
+    void checkIfPlayersArentDead();
     void checkIfPlayersTogheter();
-
-    void decreaseValue(int value);
-
 public slots:
     void timer();
 

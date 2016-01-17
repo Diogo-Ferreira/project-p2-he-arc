@@ -46,6 +46,14 @@ GameHUD::GameHUD()
 
     this->addToGroup(txtSonarEmission);
 
+    // Construction of the Sonar Group
+    QGraphicsTextItem *txtLives = new QGraphicsTextItem("Lives");
+    txtLives->setDefaultTextColor(Qt::white); // Text Color
+    txtLives->setFont(*dicisHUD);
+    txtLives->setPos(55, 20);
+
+    this->addToGroup(txtLives);
+
     this->playtime->addToGroup(txtPlaytime);
     this->playtime->addToGroup(picChrono);
 
@@ -63,7 +71,7 @@ GameHUD::GameHUD()
  * @param nbEmissions
  * @param nbEmissionsLeft
  */
-void GameHUD::update(int nbEmissions, int nbEmissionsLeft){
+void GameHUD::update(int nbEmissions, int nbEmissionsLeft, int nbLives){
 
     this->removeItems();
 
@@ -84,6 +92,14 @@ void GameHUD::update(int nbEmissions, int nbEmissionsLeft){
         QGraphicsPixmapItem *sonarI = new QGraphicsPixmapItem(QPixmap(":/img/hud/sonarI.png"));
         sonarI->setPos(1200 - (nbEmissionsLeft*spacing) - (spacing*i),640);
         this->sonar->addToGroup(sonarI);
+    }
+
+
+    // Update the lives pixmaps elements
+    for(int i = 1; i <= nbLives; i++){
+        QGraphicsPixmapItem *sonarA = new QGraphicsPixmapItem(QPixmap(":/img/hud/heartl.png"));
+        sonarA->setPos(20 + (spacing*i), 55);
+        this->sonar->addToGroup(sonarA);
     }
 }
 

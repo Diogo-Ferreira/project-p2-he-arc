@@ -6,6 +6,7 @@
         <file alias="level.png">assets/img/hud/level.png</file>
         <file alias="sonarA.png">assets/img/hud/sonarA.png</file>
         <file alias="sonarI.png">assets/img/hud/sonarI.png</file>
+        <file alias="heartl.png">assets/img/hud/heartl.png</file>
     </qresource>
     <qresource prefix="/map">
         <file alias="spritesheet.png">assets/map/spritesheet.png</file>

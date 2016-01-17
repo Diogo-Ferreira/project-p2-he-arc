@@ -9,7 +9,7 @@ class GameHUD : public QGraphicsItemGroup
 
 public:
     GameHUD();
-    void update(int nbEmissions, int nbEmissionsLeft);
+    void update(int nbEmissions, int nbEmissionsLeft, int nbLives);
     void updateName(QString name);
     void updateTime(int time);
     void removeItems();

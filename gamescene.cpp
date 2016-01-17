@@ -13,8 +13,8 @@ GameScene::GameScene()
     mapParsor = new TiledJsonMapParsor(":map/level3.json");
     this->setBackgroundBrush(QColor(29,42,55));
 
-    MyCharacter * char1 = new MyCharacter(25, 25, 4, "Ray", true, this, mapParsor);
-    MyCharacter * char2 = new MyCharacter(1200, 640, 4, "Nina", false, this, mapParsor);
+    MyCharacter * char1 = new MyCharacter(25, 25, 4, 5, "Ray", true, this, mapParsor);
+    MyCharacter * char2 = new MyCharacter(1200, 640, 4, 5, "Nina", false, this, mapParsor);
 
     this->addItem(char1);
     this->addItem(char2);
@@ -30,7 +30,7 @@ GameScene::GameScene()
 
     // HUD
     this->gameHUD = new GameHUD();
-    this->gameHUD->update(char1->nbSonarMax, char2->nbSonarLeft);
+    this->gameHUD->update(char1->nbSonarMax, char1->nbSonarLeft, char1->lives);
     this->gameHUD->setZValue(100); // Top Layer
     this->addItem(gameHUD);
 
@@ -62,7 +62,7 @@ void GameScene::keyPressEvent(QKeyEvent *event)
             characterId++;
             if(characterId > characters.count()-1) characterId = 0;
             characters[characterId]->setImage(true);
-            this->gameHUD->update(characters[characterId]->nbSonarMax, characters[characterId]->nbSonarLeft);
+            this->gameHUD->update(characters[characterId]->nbSonarMax, characters[characterId]->nbSonarLeft, characters[characterId]->lives);
             this->gameHUD->updateName(characters[characterId]->name);
             break;
         default:
@@ -94,7 +94,7 @@ void GameScene::checkIfPlayersTogheter(){
  */
 void GameScene::checkIfPlayersArentDead(){
 
-    if(characters.first()->lifes <= 0 || characters.last()->lifes <= 0){
+    if(characters.first()->lives <= 0 || characters.last()->lives <= 0){
         QMessageBox::information(
                 NULL,
                 tr("Defaite :( !"),

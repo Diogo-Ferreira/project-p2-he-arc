@@ -13,7 +13,7 @@ class GameScene;
 class MyCharacter: public QObject, public QGraphicsPixmapItem{
     Q_OBJECT
 public :
-    MyCharacter(int x, int y, int nbSonarMax, QString name, bool isSelected,QGraphicsScene *parent,TiledJsonMapParsor *mapParsor);
+    MyCharacter(int x, int y, int nbSonarMax, int nbLifes, QString name, bool isSelected,QGraphicsScene *parent,TiledJsonMapParsor *mapParsor);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
     void movePlayer();
@@ -26,7 +26,7 @@ public :
     int nbSonarMax;
     int nbSonarLeft;
     QString name;
-    int lifes = 5;
+    int lives;
 private :
     bool KeyUp = false;
     bool KeyDown = false;

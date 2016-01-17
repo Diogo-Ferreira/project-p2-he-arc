@@ -14,7 +14,7 @@
  * @param parent scene parente
  * @param mapParsor parse de carte
  */
-MyCharacter::MyCharacter(int x, int y, int nbSonarMax, QString name, bool isSelected,QGraphicsScene* parent,TiledJsonMapParsor *mapParsor)
+MyCharacter::MyCharacter(int x, int y, int nbSonarMax, int nbLives, QString name, bool isSelected,QGraphicsScene* parent,TiledJsonMapParsor *mapParsor)
 {
     this->mapParsor = mapParsor;
     this->setX(x);
@@ -23,6 +23,7 @@ MyCharacter::MyCharacter(int x, int y, int nbSonarMax, QString name, bool isSele
     this->nbSonarMax = nbSonarMax;
     this->nbSonarLeft = nbSonarMax;
     this->name = name;
+    this->lives = nbLives;
     setImage(isSelected);
     updateTimer = new QTimer();
     this->scene = dynamic_cast<GameScene*>(parent);
@@ -61,7 +62,7 @@ void MyCharacter::keyPressEvent(QKeyEvent *event)
             sonar();
 
             qDebug() << this->nbSonarLeft;
-            this->scene->gameHUD->update(this->nbSonarMax, this->nbSonarLeft);
+            this->scene->gameHUD->update(this->nbSonarMax, this->nbSonarLeft, this->lives);
             break;
     }
     this->movePlayer();
@@ -105,6 +106,7 @@ void MyCharacter::movePlayer()
             setPos(x()-speed, y());
         }else{
             touched();
+            this->scene->gameHUD->update(this->nbSonarMax, this->nbSonarLeft, this->lives);
         }
     }
     if(this->KeyRight){
@@ -112,6 +114,7 @@ void MyCharacter::movePlayer()
             setPos(x()+speed, y());
         }else{
             touched();
+            this->scene->gameHUD->update(this->nbSonarMax, this->nbSonarLeft, this->lives);
         }
     }
     if (this->KeyDown){
@@ -119,6 +122,7 @@ void MyCharacter::movePlayer()
             setPos(x(), y()+speed);
         }else{
             touched();
+            this->scene->gameHUD->update(this->nbSonarMax, this->nbSonarLeft, this->lives);
         }
     }
     if (this->KeyUp){
@@ -127,6 +131,7 @@ void MyCharacter::movePlayer()
             setPos(x(), y()-speed);
         }else{
             touched();
+            this->scene->gameHUD->update(this->nbSonarMax, this->nbSonarLeft, this->lives);
         }
     }
 }
@@ -180,7 +185,7 @@ void MyCharacter::sonar()
  */
 void MyCharacter::touched()
 {
-    lifes --;
+    lives --;
     this->stop();
     setPixmap(QPixmap(":/img/character/redballhalo.png"));
     hitAnimationTimer = new QTimer();
